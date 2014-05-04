@@ -5,12 +5,14 @@ import (
 	"encoding/hex"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
-	. "rockxsj/models"
+	"rockxsj/models"
 )
 
 type LoginController struct {
 	beego.Controller
 }
+
+var user models.Users
 
 /**
  * 登录
@@ -34,7 +36,7 @@ func (this *LoginController) Login() {
 	md5_hash.Write([]byte(password))
 	password = hex.EncodeToString(md5_hash.Sum(nil))
 
-	if CheckLogin(username, password) == true {
+	if user.CheckLogin(username, password) == true {
 		this.SetSession("username", username)
 		this.Ctx.SetCookie("username", username)
 		this.Redirect("/admin", 302)

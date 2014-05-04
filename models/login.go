@@ -27,11 +27,11 @@ func init() {
 /**
  * 检查登陆
  */
-func CheckLogin(username string, password string) bool {
+func (this *Users) CheckLogin(username string, password string) bool {
 	o := orm.NewOrm()
 
-	var user Users
-	err := o.Raw("SELECT * FROM users WHERE username = ? AND password = ?", username, password).QueryRow(&user)
+	//var user Users
+	err := o.Raw("SELECT * FROM users WHERE username = ? AND password = ?", username, password).QueryRow(&this)
 
 	if err == nil {
 		return true

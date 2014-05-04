@@ -2,13 +2,15 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	. "rockxsj/models"
+	"rockxsj/models"
 	"strconv"
 )
 
 type PostController struct {
 	beego.Controller
 }
+
+var posts models.Posts
 
 /**
  * "构造函数"
@@ -30,7 +32,7 @@ func (this *PostController) Prepare() {
 func (this *PostController) Get() {
 	this.Data["Is_index"] = true
 	this.Data["Page_title"] = "首页——博客"
-	ret := GetAll()
+	ret := posts.GetAll()
 	for _, v := range ret {
 		v.Content = beego.Substr(beego.Html2str(v.Content), 0, 200) + "..."
 	}
@@ -49,11 +51,11 @@ func (this *PostController) ShowOne() {
 		this.Ctx.WriteString("id wrong")
 		this.StopRun()
 	}
-	ret := GetOne(intid)
+	ret := posts.GetOne(intid)
 	this.Data["Page_title"] = ret.Title + "——博客"
 	this.Data["Post"] = ret
-	err_pre, pre := GetPreOrNext(ret.Id, false)
-	err_next, next := GetPreOrNext(ret.Id, true)
+	err_pre, pre := posts.GetPreOrNext(ret.Id, false)
+	err_next, next := posts.GetPreOrNext(ret.Id, true)
 	if err_pre == nil {
 		this.Data["Pre"] = pre
 		this.Data["NoPre"] = false
