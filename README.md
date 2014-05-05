@@ -3,7 +3,7 @@ beegoBlog
 
 A blog base on beego
 
-init login:
+init login info:
 
 username:rockxsj
 
