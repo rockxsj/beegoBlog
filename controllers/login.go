@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"beegoBlog/models"
 	"crypto/md5"
 	"encoding/hex"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
-	"rockxsj/models"
 )
 
 type LoginController struct {

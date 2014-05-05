@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"beegoBlog/models"
 	"github.com/astaxie/beego"
-	"rockxsj/models"
 	"strconv"
 )
 
