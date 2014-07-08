@@ -28,7 +28,7 @@ func (this *Posts) GetAll() []*Posts {
 	o := orm.NewOrm()
 
 	var posts []*Posts
-	o.QueryTable("posts").All(&posts)
+	o.QueryTable("posts").Limit(10).OrderBy("-id").All(&posts)
 
 	return posts
 }
