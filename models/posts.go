@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+const (
+	INDEX_PRE_NUM = 3  //前台每页文章数量
+	ADMIN_PRE_NUM = 10 //后台每页文章数量
+)
+
+var (
+	o orm.Ormer
+)
+
 type Posts struct {
 	Id       int
 	Title    string
@@ -19,16 +28,15 @@ func init() {
 	orm.RegisterModel(new(Posts))
 	orm.Debug = true
 	orm.RegisterDataBase("default", "mysql", beego.AppConfig.String("mysql_conf"))
+	o = orm.NewOrm()
 }
 
 /**
  * 获取所有记录
  */
-func (this *Posts) GetAll() []*Posts {
-	o := orm.NewOrm()
-
+func (this *Posts) GetAll(start, pre int) []*Posts {
 	var posts []*Posts
-	o.QueryTable("posts").Limit(10).OrderBy("-id").All(&posts)
+	o.QueryTable("posts").Limit(pre, start).OrderBy("-id").All(&posts)
 
 	return posts
 }
@@ -37,10 +45,6 @@ func (this *Posts) GetAll() []*Posts {
  * 获取一个记录
  */
 func (this *Posts) GetOne(id int) *Posts {
-	o := orm.NewOrm()
-
-	//posts := new(Posts)
-
 	this.Id = id
 	o.Read(this)
 	return this
@@ -53,9 +57,6 @@ func (this *Posts) GetOne(id int) *Posts {
  * @param bool 之前还是之后
  */
 func (this *Posts) GetPreOrNext(id int, next bool) (error, *Posts) {
-	o := orm.NewOrm()
-	//posts := new(Posts)
-
 	var fiter, order string
 	if next {
 		fiter = "Id__gt"
@@ -71,4 +72,15 @@ func (this *Posts) GetPreOrNext(id int, next bool) (error, *Posts) {
 	} else {
 		return nil, preOrNext
 	}
+}
+
+/**
+ * 获取当前表中文章数
+ */
+func (this *Posts) Count() (cnt int64) {
+	cnt, err := o.QueryTable(this).Count()
+	if err != nil {
+		panic("查询表出错")
+	}
+	return
 }
