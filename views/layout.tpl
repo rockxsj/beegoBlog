@@ -10,6 +10,7 @@
 
     <title>{{.Page_title}}</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/blog.css" rel="stylesheet">
     <style>
       body {
         min-height: 800px;
@@ -30,6 +31,12 @@
       {{.LayoutContent}}
 
     </div> <!-- /container -->
+    <div class="blog-footer">
+      <p>基于beego开发的博客程序 作者@<a href="http://blog.whoknow.me" target="_blank">北城</a></p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </div>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
   </body>

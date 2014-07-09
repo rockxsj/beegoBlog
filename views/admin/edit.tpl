@@ -5,7 +5,11 @@
     </div>
     <br>
     <textarea name="content" id="content_id" style="display:none"></textarea>
-    <div class="click2edit">{{str2html .Post.Content}}</div>
+    <div class="click2edit">
+        {{if .Is_update}}
+            {{str2html .Post.Content}}
+        {{end}}
+    </div>
     <!--
     <div class="form-group">
         <textarea id="mark_id" class="form-control" data-provide="markdown" placeholder="请表述" name="content" rows="12">{{.Post.Content}}</textarea>
