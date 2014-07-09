@@ -9,6 +9,7 @@ func init() {
 	beego.Router("/admin", &controllers.AdminController{}, "get:DashBoard")
 
 	beego.Router("/admin/list", &controllers.AdminController{}, "get:List")
+	beego.Router("/admin/list/:page:int", &controllers.AdminController{}, "get:List")
 
 	beego.Router("/admin/add", &controllers.AdminController{}, "get:Add")
 	beego.Router("/admin/do_add", &controllers.AdminController{}, "post:DoAdd")
