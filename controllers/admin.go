@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"beegoBlog/models"
+	"beegoBlog/utils"
 	"github.com/astaxie/beego"
 	"strconv"
 )
@@ -33,7 +35,12 @@ func (this *AdminController) DashBoard() {
 func (this *AdminController) List() {
 	this.Data["Page_title"] = "文章列表"
 	this.Data["Is_list"] = true
-	ret := posts.GetAll()
+	page, _ := strconv.Atoi(this.GetString(":page"))
+	cnt := posts.Count()
+
+	var getStart int
+	this.Data["NoPre"], this.Data["NoNext"], this.Data["PrePage"], this.Data["NextPage"], getStart = utils.PageInfo(page, models.ADMIN_PRE_NUM, int(cnt))
+	ret := posts.GetAll(getStart, models.ADMIN_PRE_NUM)
 	for _, v := range ret {
 		v.Content = beego.Substr(beego.Html2str(v.Content), 0, 200) + "..."
 	}
@@ -91,7 +98,7 @@ func (this *AdminController) Update() {
 		this.Ctx.WriteString("id wrong")
 		this.StopRun()
 	}
-	this.Data["Is_list"] = true
+	this.Data["Is_update"] = true
 	this.Data["Do_action"] = "do_update/" + id
 
 	ret := posts.GetOne(intid)

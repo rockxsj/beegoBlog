@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"beegoBlog/models"
+	"beegoBlog/utils"
 	"github.com/astaxie/beego"
+	//"github.com/astaxie/beego/toolbox"
 	"strconv"
 )
 
@@ -30,9 +32,15 @@ func (this *PostController) Prepare() {
  * 获取所有记录
  */
 func (this *PostController) Get() {
+	page, _ := strconv.Atoi(this.GetString(":page"))
+
+	cnt := posts.Count()
+
+	var getStart int
+	this.Data["NoPre"], this.Data["NoNext"], this.Data["PrePage"], this.Data["NextPage"], getStart = utils.PageInfo(page, models.INDEX_PRE_NUM, int(cnt))
 	this.Data["Is_index"] = true
 	this.Data["Page_title"] = "首页——博客"
-	ret := posts.GetAll()
+	ret := posts.GetAll(getStart, models.INDEX_PRE_NUM)
 	for _, v := range ret {
 		v.Content = beego.Substr(beego.Html2str(v.Content), 0, 200) + "..."
 	}
