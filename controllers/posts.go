@@ -26,6 +26,7 @@ func (this *PostController) Prepare() {
 		this.Data["Username"] = username
 		this.Data["Is_login"] = true
 	}
+	this.Data["Options"] = ModelOptions.GetOptions()
 }
 
 /**

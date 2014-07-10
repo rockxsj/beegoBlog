@@ -61,5 +61,6 @@ func (this *LoginController) ShowLoginBox() {
 		this.Redirect("/admin", 302)
 		this.StopRun()
 	}
+	this.Data["Options"] = ModelOptions.GetOptions()
 	this.TplNames = "login/login.tpl"
 }
