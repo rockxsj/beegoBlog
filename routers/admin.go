@@ -18,4 +18,7 @@ func init() {
 	beego.Router("/admin/do_update/:id:int", &controllers.AdminController{}, "post:DoUpdate")
 
 	beego.Router("/admin/del/:id:int", &controllers.AdminController{}, "get:Del")
+
+	beego.Router("/admin/option", &controllers.AdminController{}, "get:GetOptions")
+	beego.Router("/admin/SetOptions", &controllers.AdminController{}, "post:SetOptions")
 }
