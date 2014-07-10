@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{{.Page_title}}</title>
+    <title>{{.Options.title}}-后台</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/offcanvas.css" rel="stylesheet">
     <script src="/static/js/jquery.min.js"></script>

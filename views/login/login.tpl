@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>登录</title>
+    <title>{{.Options.title}}—登录</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/signin.css" rel="stylesheet">
   </head>

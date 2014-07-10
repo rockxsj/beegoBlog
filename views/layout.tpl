@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{.Page_title}}</title>
+    <title>{{.Options.title}}|{{.Options.secondtitle}}</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/blog.css" rel="stylesheet">
     <style>

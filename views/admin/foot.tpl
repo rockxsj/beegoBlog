@@ -1,5 +1,5 @@
 <footer>
-	<p>&copy; <a href="http://blog.whoknow.me" target="_blank">北城</a> 2014</p>
+	<p>&copy; <a href="http://blog.whoknow.me" target="_blank">{{.Options.title}}</a> 2014</p>
 </footer>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/offcanvas.js"></script>
