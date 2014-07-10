@@ -1,8 +1,6 @@
 package models
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
 )
@@ -18,19 +16,10 @@ type Users struct {
 	ModTime  time.Time
 }
 
-func init() {
-	orm.RegisterModel(new(Users))
-	orm.RegisterDataBase("user", "mysql", beego.AppConfig.String("mysql_conf"))
-	orm.Debug = true
-}
-
 /**
  * 检查登陆
  */
 func (this *Users) CheckLogin(username string, password string) bool {
-	o := orm.NewOrm()
-
-	//var user Users
 	err := o.Raw("SELECT * FROM users WHERE username = ? AND password = ?", username, password).QueryRow(&this)
 
 	if err == nil {
