@@ -1,7 +1,13 @@
 <form method="post" action="/admin/{{.Do_action}}">
     <div class="input-group">
       <span class="input-group-addon">标题</span>
-      <input type="text" class="form-control" name="title" placeholder="你想说什么" value="{{.Post.Title}}" />
+      <input type="text" class="form-control" name="title" placeholder="你想说什么" value="{{.Post.Title}}" style="width: 80%" />
+      <span class="input-group-addon">分类</span>
+      <select class="form-control" value="{{.Post.Cid}}" name="cid" id="cidSelect">
+        {{range .Cates}}
+            <option value="{{.Id}}">{{.Name}}</option>
+        {{end}}
+      </select>
     </div>
     <br>
     <textarea name="content" id="content_id" style="display:none"></textarea>
@@ -32,5 +38,6 @@ $(document).ready(function() {
         theme: 'monokai'
     }
   });
+  $("#cidSelect").val($("#cidSelect").attr("value"))
 });
 </script>

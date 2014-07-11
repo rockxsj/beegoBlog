@@ -11,7 +11,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">主页</a></li>
+        <li class="active"><a href="/admin">后台</a></li>
         <li><a href="/login/logout">退出</a></li>
       </ul>
     </div>
