@@ -17,6 +17,7 @@ type Posts struct {
 	Content  string
 	Add_time time.Time
 	Mod_time time.Time
+	Cid      int64
 }
 
 /**

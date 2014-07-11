@@ -8,9 +8,10 @@ import (
 /**
  * 新增文章
  */
-func (this *Posts) AddOne(title string, content string) bool {
+func (this *Posts) AddOne(title string, content string, cid int64) bool {
 	this.Title = title
 	this.Content = content
+	this.Cid = cid
 	this.Add_time = time.Now()
 	_, err := o.Insert(this)
 	if err == nil {
@@ -31,11 +32,12 @@ func (this *Posts) Del(id int) {
 /**
  * 更新一条记录
  */
-func (this *Posts) DoUpdateOne(id int, title string, content string) bool {
+func (this *Posts) DoUpdateOne(id int, title string, content string, cid int64) bool {
 	this.Id = id
 	if o.Read(this) == nil {
 		this.Title = title
 		this.Content = content
+		this.Cid = cid
 		this.Mod_time = time.Now()
 
 		if _, err := o.Update(this); err == nil {
