@@ -21,4 +21,9 @@ func init() {
 
 	beego.Router("/admin/option", &controllers.AdminController{}, "get:GetOptions")
 	beego.Router("/admin/SetOptions", &controllers.AdminController{}, "post:SetOptions")
+
+	beego.Router("/admin/GetCates", &controllers.AdminController{}, "get:GetCates")
+	beego.Router("/admin/AddCate", &controllers.AdminController{}, "post:AddCate")
+	beego.Router("/admin/DelCate", &controllers.AdminController{}, "post:DelCate")
+	beego.Router("/admin/RenameCate", &controllers.AdminController{}, "post:RenameCate")
 }
