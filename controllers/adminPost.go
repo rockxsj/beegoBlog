@@ -31,6 +31,7 @@ func (this *AdminController) List() {
  * 打开编辑器，新增文章
  */
 func (this *AdminController) Add() {
+	this.Data["Cates"] = modelCates.GetCates()
 	this.Data["Is_add"] = true
 	this.Data["Do_action"] = "do_add"
 	this.Data["Page_title"] = "新增文章"
@@ -44,8 +45,9 @@ func (this *AdminController) Add() {
 func (this *AdminController) DoAdd() {
 	title := this.GetString("title")
 	content := this.GetString("content")
+	cid, _ := this.GetInt("cid")
 
-	ret := posts.AddOne(title, content)
+	ret := posts.AddOne(title, content, cid)
 	if ret == true {
 		this.Redirect("/admin/list", 302)
 	} else {
@@ -70,6 +72,7 @@ func (this *AdminController) Del() {
  * 获取一个，供更新使用
  */
 func (this *AdminController) Update() {
+	this.Data["Cates"] = modelCates.GetCates()
 	id := this.GetString(":id")
 	intid, err := strconv.Atoi(id)
 	if err != nil {
@@ -101,7 +104,8 @@ func (this *AdminController) DoUpdate() {
 
 	title := this.GetString("title")
 	content := this.GetString("content")
+	cid, _ := this.GetInt("cid")
 
-	posts.DoUpdateOne(intid, title, content)
+	posts.DoUpdateOne(intid, title, content, cid)
 	this.Redirect("/admin/list", 302)
 }
