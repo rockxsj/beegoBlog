@@ -30,4 +30,7 @@ func init() {
 	beego.Router("/admin/GetLinks", &controllers.AdminController{}, "get:GetLinks")
 	beego.Router("/admin/AddLink", &controllers.AdminController{}, "post:AddLink")
 	beego.Router("/admin/DelLink", &controllers.AdminController{}, "post:DelLink")
+
+	beego.Router("/admin/ShowUsers", &controllers.AdminController{}, "get:ShowUsers")
+	beego.Router("/admin/ChangePassword", &controllers.AdminController{}, "post:ChangePassword")
 }
