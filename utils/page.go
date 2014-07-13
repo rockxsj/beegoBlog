@@ -1,6 +1,6 @@
 package utils
 
-func PageInfo(page, pre, count int) (nopre, nonext bool, prepage, nextpage, start int) {
+func PageInfo(page, pre, count int64) (nopre, nonext bool, prepage, nextpage, start int64) {
 	nopre = false
 	if page == 0 || page == 1 {
 		nopre = true
