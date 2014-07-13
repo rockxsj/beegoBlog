@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego/toolbox"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
 )
@@ -12,7 +13,7 @@ const (
 )
 
 type Posts struct {
-	Id       int
+	Id       int64
 	Title    string
 	Content  string
 	Add_time time.Time
@@ -23,9 +24,9 @@ type Posts struct {
 /**
  * 获取所有记录
  */
-func (this *Posts) GetAll(start, pre int) []*Posts {
+func (this *Posts) GetAll(start, limit int64) []*Posts {
 	var posts []*Posts
-	o.QueryTable("posts").Limit(pre, start).OrderBy("-id").All(&posts)
+	o.QueryTable("posts").Limit(limit, start).OrderBy("-id").All(&posts)
 
 	return posts
 }
@@ -33,7 +34,7 @@ func (this *Posts) GetAll(start, pre int) []*Posts {
 /**
  * 获取一个记录
  */
-func (this *Posts) GetOne(id int) *Posts {
+func (this *Posts) GetOne(id int64) *Posts {
 	this.Id = id
 	o.Read(this)
 	return this
@@ -45,7 +46,7 @@ func (this *Posts) GetOne(id int) *Posts {
  * @param int 当前id
  * @param bool 之前还是之后
  */
-func (this *Posts) GetPreOrNext(id int, next bool) (error, *Posts) {
+func (this *Posts) GetPreOrNext(id int64, next bool) (error, *Posts) {
 	var fiter, order string
 	if next {
 		fiter = "Id__gt"
@@ -72,4 +73,55 @@ func (this *Posts) Count() (cnt int64) {
 		panic("查询表出错")
 	}
 	return
+}
+
+/**
+ * 根据分类获取记录
+ */
+func (this *Posts) GetByCate(cate, start, limit int64) []*Posts {
+	var posts []*Posts
+	o.QueryTable("posts").Limit(limit, start).Filter("Cid", cate).OrderBy("-id").All(&posts)
+
+	return posts
+}
+
+/**
+ * 根据分类查询数量
+ */
+func (this *Posts) CateCount(cate int64) (cnt int64) {
+	cnt, err := o.QueryTable(this).Filter("Cid", cate).Count()
+	if err != nil {
+		panic("查询表出错")
+	}
+	return
+}
+
+/**
+ * 取出月份
+ */
+func (this *Posts) GetMonthList() orm.ParamsList {
+	var monthList orm.ParamsList
+	o.Raw("select distinct(date_format(add_time, '%Y-%m')) as each_month from posts").ValuesFlat(&monthList)
+	toolbox.Display("o", monthList)
+	return monthList
+}
+
+/**
+ * 根据月份获取文章数
+ */
+func (this *Posts) MonthCount(month string) (cnt int64) {
+	cnt, err := o.QueryTable(this).Filter("add_time__startswith", month).Count()
+	if err != nil {
+		panic("查询表出错")
+	}
+	return
+}
+
+/**
+ * 根据月份获取文章
+ */
+func (this *Posts) GetByMonth(month string, start, limit int64) []*Posts {
+	var posts []*Posts
+	o.QueryTable("posts").Limit(limit, start).Filter("add_time__startswith", month).OrderBy("-id").All(&posts)
+	return posts
 }

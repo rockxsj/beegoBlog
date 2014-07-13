@@ -1,8 +1,8 @@
 package models
 
 import (
-	//"github.com/astaxie/beego/orm"
-	"github.com/astaxie/beego/toolbox"
+	"github.com/astaxie/beego/orm"
+	//"github.com/astaxie/beego/toolbox"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -15,16 +15,20 @@ type Cates struct {
 func (this *Cates) GetCates() []*Cates {
 	var cates []*Cates
 	o.QueryTable("cates").All(&cates)
-	toolbox.Display("ret", cates)
 	return cates
 }
 
-func (this *Cates) AddCate(name string) {
-
+func (this *Cates) AddCate(name string) error {
+	this.Name = name
+	_, err := o.Insert(this)
+	return err
 }
 
 func (this *Cates) DelCate(id int64) error {
 	_, err := o.Delete(&Cates{Id: id})
+	o.QueryTable("posts").Filter("Cid", id).Update(orm.Params{
+		"Cid": 0,
+	})
 	return err
 }
 

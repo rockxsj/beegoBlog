@@ -24,7 +24,7 @@ func (this *Posts) AddOne(title string, content string, cid int64) bool {
 /**
  * 删除文章
  */
-func (this *Posts) Del(id int) {
+func (this *Posts) Del(id int64) {
 	this.Id = id
 	o.Delete(this)
 }
@@ -32,7 +32,7 @@ func (this *Posts) Del(id int) {
 /**
  * 更新一条记录
  */
-func (this *Posts) DoUpdateOne(id int, title string, content string, cid int64) bool {
+func (this *Posts) DoUpdateOne(id int64, title string, content string, cid int64) bool {
 	this.Id = id
 	if o.Read(this) == nil {
 		this.Title = title

@@ -17,5 +17,6 @@ func init() {
 	orm.RegisterModel(new(Users))
 	orm.RegisterModel(new(Options))
 	orm.RegisterModel(new(Cates))
+	orm.RegisterModel(new(Links))
 	o = orm.NewOrm()
 }
