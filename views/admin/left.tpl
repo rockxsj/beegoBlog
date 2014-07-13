@@ -6,5 +6,6 @@
     <a href="/admin/add" class="list-group-item{{if .Is_add}} active{{end}}">增加文章</a>
     <a href="/admin/GetLinks" class="list-group-item{{if .Is_link}} active{{end}}">友情链接</a>
     <a href="/admin/option" class="list-group-item{{if .Is_option}} active{{end}}">博客设置</a>
+    <a href="/admin/ShowUsers" class="list-group-item{{if .Is_users}} active{{end}}">账号管理</a>
   </div>
 </div><!--/span-->
