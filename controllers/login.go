@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"beegoBlog/models"
-	"crypto/md5"
-	"encoding/hex"
+	"beegoBlog/utils"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/toolbox"
 	"github.com/astaxie/beego/validation"
 )
 
@@ -31,10 +31,11 @@ func (this *LoginController) Login() {
 		}
 		this.StopRun()
 	}
+	toolbox.Display("u", username)
+	toolbox.Display("pa", password)
 
-	md5_hash := md5.New()
-	md5_hash.Write([]byte(password))
-	password = hex.EncodeToString(md5_hash.Sum(nil))
+	password = utils.LoginPassword(password)
+	toolbox.Display("paaa", password)
 
 	if user.CheckLogin(username, password) == true {
 		this.SetSession("username", username)
