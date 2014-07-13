@@ -12,36 +12,20 @@
 	          <td>{{.Id}}</td>
 	          <td>
 	          	  <div class="col-xs-4">
-				  	<input type="text" class="form-control input-sm" value="{{.Name}}" onchange="renameCate($(this), {{.Id}})">
+				  	<input type="text" class="form-control input-sm" value="{{.Name}}" onchange="BLOG_ADMIN.renameCate($(this), {{.Id}})">
 				  </div>
 	          </td>
 	          <td>
-	          	<button type="button" onclick="delCate($(this), {{.Id}});" class="btn btn-danger btn-xs">删除</button>
+	          	<button type="button" onclick="BLOG_ADMIN.delCate($(this), {{.Id}});" class="btn btn-danger btn-xs">删除</button>
 	          </td>
 	        </tr>
          {{end}}
       </tbody>
 </table>
-
-<script>
-var delCate = function (t, id) {
-	$.post("/admin/DelCate",{"Id" : id}, function (data) {
-		if (data.success == "1") {
-			t.parent().parent().remove()
-		} else {
-			alert("删除失败！")
-		}
-	}, "json")
-}
-
-var renameCate = function (t, id) {
-	var newName = t.val()
-	$.post("/admin/RenameCate", {"Id" : id, "NewName" : newName}, function (data) {
-		if (data.success == "1") {
-			alert("更新成功！")
-		} else {
-			alert("更新失败！")
-		}
-	}, "json")
-}
-</script>
+<form class="form-inline" role="form" method="post" action="/admin/AddCate">
+  <div class="form-group">
+    <label class="sr-only" for="addCate">添加分类</label>
+    <input type="text" name="cate" class="form-control" id="addCate" placeholder="分类名">
+  </div>
+  <button type="submit" class="btn btn-default">添加</button>
+</form>

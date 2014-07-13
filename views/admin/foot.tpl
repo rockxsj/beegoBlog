@@ -6,3 +6,4 @@
 <script src="/static/js/codemirror.js"></script>
 <script src="/static/js/xml.js"></script>
 <script src="/static/js/summernote.min.js"></script>
+<script src="/static/js/blog_admin.js"></script>
