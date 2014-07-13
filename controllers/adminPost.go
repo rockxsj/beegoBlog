@@ -13,11 +13,11 @@ import (
 func (this *AdminController) List() {
 	this.Data["Page_title"] = "文章列表"
 	this.Data["Is_list"] = true
-	page, _ := strconv.Atoi(this.GetString(":page"))
+	page, _ := this.GetInt(":page")
 	cnt := posts.Count()
 
-	var getStart int
-	this.Data["NoPre"], this.Data["NoNext"], this.Data["PrePage"], this.Data["NextPage"], getStart = utils.PageInfo(page, models.ADMIN_PRE_NUM, int(cnt))
+	var getStart int64
+	this.Data["NoPre"], this.Data["NoNext"], this.Data["PrePage"], this.Data["NextPage"], getStart = utils.PageInfo(page, models.ADMIN_PRE_NUM, cnt)
 	ret := posts.GetAll(getStart, models.ADMIN_PRE_NUM)
 	for _, v := range ret {
 		v.Content = beego.Substr(beego.Html2str(v.Content), 0, 200) + "..."
@@ -59,12 +59,8 @@ func (this *AdminController) DoAdd() {
  * 删除文章
  */
 func (this *AdminController) Del() {
-	id := this.GetString(":id")
-	intid, err := strconv.Atoi(id)
-	if err != nil {
-		this.Ctx.WriteString("id wrong")
-	}
-	posts.Del(intid)
+	id, _ := this.GetInt(":id")
+	posts.Del(id)
 	this.Redirect("/admin", 302)
 }
 
@@ -73,16 +69,11 @@ func (this *AdminController) Del() {
  */
 func (this *AdminController) Update() {
 	this.Data["Cates"] = modelCates.GetCates()
-	id := this.GetString(":id")
-	intid, err := strconv.Atoi(id)
-	if err != nil {
-		this.Ctx.WriteString("id wrong")
-		this.StopRun()
-	}
+	id, _ := this.GetInt(":id")
 	this.Data["Is_update"] = true
-	this.Data["Do_action"] = "do_update/" + id
+	this.Data["Do_action"] = "do_update/" + strconv.Itoa(int(id))
 
-	ret := posts.GetOne(intid)
+	ret := posts.GetOne(id)
 	this.Data["Post"] = ret
 
 	this.Data["Page_title"] = ret.Title + "——更新文章"
@@ -94,18 +85,12 @@ func (this *AdminController) Update() {
  * 更新
  */
 func (this *AdminController) DoUpdate() {
-	id := this.GetString(":id")
-
-	intid, err := strconv.Atoi(id)
-
-	if err != nil {
-		this.Ctx.WriteString("id wrong")
-	}
+	id, _ := this.GetInt(":id")
 
 	title := this.GetString("title")
 	content := this.GetString("content")
 	cid, _ := this.GetInt("cid")
 
-	posts.DoUpdateOne(intid, title, content, cid)
+	posts.DoUpdateOne(id, title, content, cid)
 	this.Redirect("/admin/list", 302)
 }
