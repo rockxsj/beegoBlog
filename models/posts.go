@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/astaxie/beego/toolbox"
+	//"github.com/astaxie/beego/toolbox"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
 )
@@ -19,17 +19,30 @@ type Posts struct {
 	Add_time time.Time
 	Mod_time time.Time
 	Cid      int64
+	//CateName string //数据表中不存在该字段，是cid在cates表中映射的分类名
+}
+
+/**
+ * 原生sql获取记录
+ */
+func (this *Posts) GetAll(start, limit int64) []orm.Params {
+	var posts []orm.Params
+	o.Raw("SELECT p.*,c.name AS cate_name FROM posts p LEFT JOIN cates c ON p.cid = c.id ORDER BY id DESC LIMIT ?,?", start, limit).Values(&posts)
+	return posts
 }
 
 /**
  * 获取所有记录
  */
+/*
 func (this *Posts) GetAll(start, limit int64) []*Posts {
 	var posts []*Posts
 	o.QueryTable("posts").Limit(limit, start).OrderBy("-id").All(&posts)
+	//toolbox.Display("posts", posts)
 
 	return posts
 }
+*/
 
 /**
  * 获取一个记录
@@ -38,30 +51,6 @@ func (this *Posts) GetOne(id int64) *Posts {
 	this.Id = id
 	o.Read(this)
 	return this
-}
-
-/**
- * 获取相邻记录
- *
- * @param int 当前id
- * @param bool 之前还是之后
- */
-func (this *Posts) GetPreOrNext(id int64, next bool) (error, *Posts) {
-	var fiter, order string
-	if next {
-		fiter = "Id__gt"
-		order = "Id"
-	} else {
-		fiter = "Id__lt"
-		order = "-Id"
-	}
-	preOrNext := new(Posts)
-	err := o.QueryTable(this).Filter(fiter, id).OrderBy(order).Limit(1).One(preOrNext)
-	if err == orm.ErrNoRows {
-		return orm.ErrNoRows, preOrNext
-	} else {
-		return nil, preOrNext
-	}
 }
 
 /**
@@ -78,9 +67,9 @@ func (this *Posts) Count() (cnt int64) {
 /**
  * 根据分类获取记录
  */
-func (this *Posts) GetByCate(cate, start, limit int64) []*Posts {
-	var posts []*Posts
-	o.QueryTable("posts").Limit(limit, start).Filter("Cid", cate).OrderBy("-id").All(&posts)
+func (this *Posts) GetByCate(cate, start, limit int64) []orm.Params {
+	var posts []orm.Params
+	o.Raw("SELECT * FROM posts WHERE cid = ? ORDER BY ID DESC LIMIT ?,?", cate, start, limit).Values(&posts)
 
 	return posts
 }
@@ -102,7 +91,6 @@ func (this *Posts) CateCount(cate int64) (cnt int64) {
 func (this *Posts) GetMonthList() orm.ParamsList {
 	var monthList orm.ParamsList
 	o.Raw("select distinct(date_format(add_time, '%Y-%m')) as each_month from posts").ValuesFlat(&monthList)
-	toolbox.Display("o", monthList)
 	return monthList
 }
 
@@ -120,8 +108,9 @@ func (this *Posts) MonthCount(month string) (cnt int64) {
 /**
  * 根据月份获取文章
  */
-func (this *Posts) GetByMonth(month string, start, limit int64) []*Posts {
-	var posts []*Posts
-	o.QueryTable("posts").Limit(limit, start).Filter("add_time__startswith", month).OrderBy("-id").All(&posts)
+func (this *Posts) GetByMonth(month string, start, limit int64) []orm.Params {
+	var posts []orm.Params
+	o.Raw("SELECT * FROM posts WHERE add_time LIKE ? ORDER BY id desc LIMIT ?,?", month+"%", start, limit).Values(&posts)
+	//o.QueryTable("posts").Limit(limit, start).Filter("add_time__startswith", month).OrderBy("-id").All(&posts)
 	return posts
 }
