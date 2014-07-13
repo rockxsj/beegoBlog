@@ -28,9 +28,9 @@
         <div class="col-sm-8 blog-main">
         {{range .Posts}}
           <div class="blog-post">
-            <h2 class="blog-post-title">{{.Title}}</h2>
-            <p class="blog-post-meta">{{date .Add_time "Y-m-d H:i:s"}}</p>
-            {{str2html .Content}}
+            <h2 class="blog-post-title">{{.title}}</h2>
+            <p class="blog-post-meta">{{.add_time}}</p>
+            {{str2html .content}}
           </div><!-- /.blog-post -->
         {{end}}
 
