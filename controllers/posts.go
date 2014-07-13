@@ -36,6 +36,7 @@ func (this *PostController) Prepare() {
  * 获取所有记录
  */
 func (this *PostController) Get() {
+	//posts.RawGetAll()
 	page, _ := this.GetInt(":page")
 
 	cnt := posts.Count()
@@ -47,35 +48,6 @@ func (this *PostController) Get() {
 	ret := posts.GetAll(getStart, models.INDEX_PRE_NUM)
 	this.Data["Posts"] = ret
 	this.TplNames = "index.tpl"
-}
-
-/**
- * 读取一个博文
- *
- * @废弃
- */
-func (this *PostController) ShowOne() {
-	id, _ := this.GetInt(":id")
-	ret := posts.GetOne(id)
-	this.Data["Page_title"] = ret.Title + "——博客"
-	this.Data["Post"] = ret
-	err_pre, pre := posts.GetPreOrNext(ret.Id, false)
-	err_next, next := posts.GetPreOrNext(ret.Id, true)
-	if err_pre == nil {
-		this.Data["Pre"] = pre
-		this.Data["NoPre"] = false
-	} else {
-		this.Data["NoPre"] = true
-	}
-	if err_next == nil {
-		this.Data["Next"] = next
-		this.Data["NoNext"] = false
-	} else {
-		this.Data["NoNext"] = true
-	}
-
-	this.Layout = "layout.tpl"
-	this.TplNames = "post.tpl"
 }
 
 /**

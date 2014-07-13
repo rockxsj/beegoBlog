@@ -3,7 +3,7 @@ package controllers
 import (
 	"beegoBlog/models"
 	"beegoBlog/utils"
-	"github.com/astaxie/beego"
+	//"github.com/astaxie/beego"
 	"strconv"
 )
 
@@ -19,9 +19,6 @@ func (this *AdminController) List() {
 	var getStart int64
 	this.Data["NoPre"], this.Data["NoNext"], this.Data["PrePage"], this.Data["NextPage"], getStart = utils.PageInfo(page, models.ADMIN_PRE_NUM, cnt)
 	ret := posts.GetAll(getStart, models.ADMIN_PRE_NUM)
-	for _, v := range ret {
-		v.Content = beego.Substr(beego.Html2str(v.Content), 0, 200) + "..."
-	}
 	this.Data["Posts"] = ret
 	this.Layout = "admin/layout.tpl"
 	this.TplNames = "admin/list.tpl"
