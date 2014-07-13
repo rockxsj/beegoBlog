@@ -1,15 +1,24 @@
-<div class="row">
-  {{range .Posts}}
-    <div class="col-6 col-sm-6 col-lg-4">
-      <h2>{{.Title}}</h2>
-      <p>{{.Content}} </p>
-      <div class="btn-group btn-group-sm">
-        <a class="btn btn-default" role="button" href="/admin/update/{{.Id}}">更新 &raquo;</a>
-        <a class="btn btn-default" role="button" href="/admin/del/{{.Id}}">删除</a>
-      </div>
-    </div><!--/span-->
-  {{end}}
-</div><!--/row-->
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>标题</th>
+        <th>分类</th>
+        <th>更新</th>
+        <th>删除</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Posts}}
+        <tr>
+          <td>{{.title}}</td>
+          <td>{{.cate_name}}</td>
+          <td><a class="btn btn-default" role="button" href="/admin/update/{{.id}}">更新 &raquo;</a></td>
+          <td><a class="btn btn-default" role="button" href="/admin/del/{{.id}}">删除</a></td>
+        </tr>
+       {{end}}
+    </tbody>
+</table>
+
 <ul class="pager">
   <li class="previous{{if .NoPre}} disabled{{end}}">
     <a href={{if .NoPre}}"javascript:void(0)"{{else}}"/admin/list/{{.PrePage}}"{{end}}>
