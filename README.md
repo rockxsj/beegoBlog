@@ -5,6 +5,6 @@ A blog base on beego
 
 init login:
 
-username:rockxsj
+username:admin
 
 password:123456
